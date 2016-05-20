@@ -57,8 +57,7 @@ release(context)
 The kernel is just
 
 ```opencl
-__kernel void add_vector(__global float* a, __global float* b,
-  __global float* c, int num_els) {
+__kernel void add_vector(__global float* a, __global float* b, __global float* c, int num_els) {
   int idx = get_global_id(0);
   if (idx < num_els) {
     c[idx] = a[idx] + b[idx];
