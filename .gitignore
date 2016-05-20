@@ -1,0 +1,7 @@
+nimcache
+*.ndb
+examples/compile
+examples/info
+examples/point.nim
+examples/kmeans
+examples/vadd
