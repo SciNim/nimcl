@@ -240,7 +240,7 @@ proc run3d*(queue: PCommandQueue, kernel: PKernel, totalWork, localWork: (int, i
     (a, b, c) = totalWork
     (d, e, f) = localWork
   var
-    globalWorkSize = [a, b, d]
+    globalWorkSize = [a, b, c]
     localWorkSize = [d, e, f]
   check enqueueNDRangeKernel(queue, kernel, 1, nil,  cast[ptr int](addr globalWorkSize), cast[ptr int](addr localWorkSize), 0, nil, nil)
 
