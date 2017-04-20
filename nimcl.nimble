@@ -1,4 +1,4 @@
-version       = "0.1.0"
+version       = "0.1.1"
 author        = "Andrea Ferretti"
 description   = "OpenCL utilities"
 license       = "Apache2"
@@ -20,16 +20,16 @@ proc addDefaults() =
 task info, "OpenCL info":
   addDefaults()
   --run
-  setCommand "c", "examples/info"
+  setCommand "c", "examples/info.nim"
 
 task clcompile, "OpenCL compiler":
   addDefaults()
-  setCommand "c", "examples/compile"
+  setCommand "c", "examples/compile.nim"
 
 task vadd, "run vector add example":
   addDefaults()
   --run
-  setCommand "c", "examples/vadd"
+  setCommand "c", "examples/vadd.nim"
 
 task headers, "compile headers with c2nim":
   exec "c2nim examples/point.h"
@@ -38,4 +38,4 @@ task kmeans, "run kmeans example":
   dependsOn headers
   addDefaults()
   --run
-  setCommand "c", "examples/kmeans"
+  setCommand "c", "examples/kmeans.nim"

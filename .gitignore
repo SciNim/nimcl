@@ -1,5 +1,7 @@
 nimcache
 *.ndb
+*.aoco
+*.aocx
 examples/compile
 examples/info
 examples/point.nim

@@ -17,6 +17,7 @@ import os, math, nimcl
 proc main() =
   const
     body = staticRead("vadd.cl")
+    # body = staticRead("vadd.aocx")
     size = 1_000_000
   var
     a = newSeq[float32](size)
@@ -30,6 +31,11 @@ proc main() =
   let
     (device, context, queue) = singleDeviceDefaults()
     program = context.createAndBuild(body, device)
+    # platform = getPlatformByName("Intel(R) FPGA")
+    # device = platform.getDevices[0]
+    # context = @[device].createContext
+    # queue = context.commandQueueFor(device)
+    # program = context.createAndBuildBinary(body, device)
     add = program.createKernel("add_vector")
     gpuA = context.bufferLike(a)
     gpuB = context.bufferLike(b)

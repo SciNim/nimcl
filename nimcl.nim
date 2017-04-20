@@ -122,6 +122,15 @@ proc createProgram*(context: PContext, body: string): PProgram =
   result = createProgramWithSource(context, 1, cast[cstringArray](addr lines), nil, addr status)
   check status
 
+proc createProgramBinary*(context: PContext, device: PDeviceId, body: string): PProgram =
+  var status: TClResult
+  var binaryStatus: int32
+  var dev = device
+  var lines = [cstring(body)]
+  var L = body.len
+  result = createProgramWithBinary(context, 1, addr dev, addr L, cast[ptr ptr cuchar](addr lines), addr binaryStatus, addr status)
+  check status
+
 proc buildOn*(program: PProgram, devices: seq[PDeviceId]) =
   var devs = devices
   check buildProgram(program, devs.len.uint32, cast[ptr PDeviceId](addr devs[0]), nil, nil, nil)
@@ -134,6 +143,10 @@ proc createAndBuild*(context: PContext, body: string, devices: seq[PDeviceId]): 
 
 proc createAndBuild*(context: PContext, body: string, device: PDeviceId): PProgram =
   result = createProgram(context, body)
+  result.buildOn(device)
+
+proc createAndBuildBinary*(context: PContext, body: string, device: PDeviceId): PProgram =
+  result = createProgramBinary(context, device, body)
   result.buildOn(device)
 
 proc buffer*[A](context: PContext, size: int, flags: Tmem_flags = MEM_READ_WRITE): PMem =
