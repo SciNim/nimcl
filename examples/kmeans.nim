@@ -49,7 +49,7 @@ proc main() =
   updateCentroids.args(gpuAccum, gpuCentroids, workGroups.int32, centroids.len.int32)
 
   for _ in 1 .. iterations:
-    for i in 0 .. < centroids.len:
+    for i in 0 ..< centroids.len:
       centroids[i].x = points[i].x
       centroids[i].y = points[i].y
 
