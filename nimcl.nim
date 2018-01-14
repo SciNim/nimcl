@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import opencl
+import opencl, macros
 
 type
   PlatformNotFound = object of Exception
@@ -186,38 +186,15 @@ template setArg(kernel: PKernel, item: anyInt, index: int) =
   var x = item
   check setKernelArg(kernel, index.uint32, sizeof(type(item)), addr x)
 
-proc args*[A1](kernel: PKernel, a1: A1) =
-  kernel.setArg(a1, 0)
+macro args*(kernel: Pkernel, args: varargs[untyped]): untyped =
+  result = newStmtList()
 
-proc args*[A1, A2](kernel: PKernel, a1: A1, a2: A2) =
-  kernel.setArg(a1, 0)
-  kernel.setArg(a2, 1)
-
-proc args*[A1, A2, A3](kernel: PKernel, a1: A1, a2: A2, a3: A3) =
-  kernel.setArg(a1, 0)
-  kernel.setArg(a2, 1)
-  kernel.setArg(a3, 2)
-
-proc args*[A1, A2, A3, A4](kernel: PKernel, a1: A1, a2: A2, a3: A3, a4: A4) =
-  kernel.setArg(a1, 0)
-  kernel.setArg(a2, 1)
-  kernel.setArg(a3, 2)
-  kernel.setArg(a4, 3)
-
-proc args*[A1, A2, A3, A4, A5](kernel: PKernel, a1: A1, a2: A2, a3: A3, a4: A4, a5: A5) =
-  kernel.setArg(a1, 0)
-  kernel.setArg(a2, 1)
-  kernel.setArg(a3, 2)
-  kernel.setArg(a4, 3)
-  kernel.setArg(a5, 4)
-
-proc args*[A1, A2, A3, A4, A5, A6](kernel: PKernel, a1: A1, a2: A2, a3: A3, a4: A4, a5: A5, a6: A6) =
-  kernel.setArg(a1, 0)
-  kernel.setArg(a2, 1)
-  kernel.setArg(a3, 2)
-  kernel.setArg(a4, 3)
-  kernel.setArg(a5, 4)
-  kernel.setArg(a6, 5)
+  var i = 0 # no pairs for macro for loop
+  for arg in items(args):
+    let s = quote do:
+      `kernel`.setArg(`arg`, `i`)
+    result.add(s)
+    inc i
 
 proc run*(queue: PCommandQueue, kernel: PKernel, totalWork: int) =
   var globalWorkSize = [totalWork, 0, 0]
