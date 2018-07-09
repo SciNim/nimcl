@@ -1,11 +1,11 @@
-version       = "0.1.2"
+version       = "0.1.3"
 author        = "Andrea Ferretti"
 description   = "OpenCL utilities"
 license       = "Apache2"
 skipDirs      = @["examples"]
 skipFiles     = @["points.json"]
 
-requires "nim >= 0.13.0", "opencl >= 1.0"
+requires "nim >= 0.15.0", "opencl >= 1.0"
 
 
 template dependsOn*(task: untyped): typed =
