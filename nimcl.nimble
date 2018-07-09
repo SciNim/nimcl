@@ -8,7 +8,7 @@ skipFiles     = @["points.json"]
 requires "nim >= 0.13.0", "opencl >= 1.0"
 
 
-template dependsOn*(task: untyped): stmt =
+template dependsOn*(task: untyped): typed =
   exec "nimble " & astToStr(task)
 
 proc addDefaults() =
