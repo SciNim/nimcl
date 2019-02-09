@@ -209,7 +209,7 @@ proc run*(queue: PCommandQueue, kernel: PKernel, totalWork, localWork: int) =
 proc run2d*(queue: PCommandQueue, kernel: PKernel, totalWork: (int, int)) =
   let (a, b) = totalWork
   var globalWorkSize = [a, b, 0]
-  check enqueueNDRangeKernel(queue, kernel, 1, nil,  cast[ptr int](addr globalWorkSize), nil, 0, nil, nil)
+  check enqueueNDRangeKernel(queue, kernel, 2, nil,  cast[ptr int](addr globalWorkSize), nil, 0, nil, nil)
 
 proc run2d*(queue: PCommandQueue, kernel: PKernel, totalWork, localWork: (int, int)) =
   let
@@ -218,12 +218,12 @@ proc run2d*(queue: PCommandQueue, kernel: PKernel, totalWork, localWork: (int, i
   var
     globalWorkSize = [a, b, 0]
     localWorkSize = [c, d, 0]
-  check enqueueNDRangeKernel(queue, kernel, 1, nil,  cast[ptr int](addr globalWorkSize), cast[ptr int](addr localWorkSize), 0, nil, nil)
+  check enqueueNDRangeKernel(queue, kernel, 2, nil,  cast[ptr int](addr globalWorkSize), cast[ptr int](addr localWorkSize), 0, nil, nil)
 
 proc run3d*(queue: PCommandQueue, kernel: PKernel, totalWork: (int, int, int)) =
   let (a, b, c) = totalWork
   var globalWorkSize = [a, b, c]
-  check enqueueNDRangeKernel(queue, kernel, 1, nil,  cast[ptr int](addr globalWorkSize), nil, 0, nil, nil)
+  check enqueueNDRangeKernel(queue, kernel, 3, nil,  cast[ptr int](addr globalWorkSize), nil, 0, nil, nil)
 
 proc run3d*(queue: PCommandQueue, kernel: PKernel, totalWork, localWork: (int, int, int)) =
   let
@@ -232,7 +232,7 @@ proc run3d*(queue: PCommandQueue, kernel: PKernel, totalWork, localWork: (int, i
   var
     globalWorkSize = [a, b, c]
     localWorkSize = [d, e, f]
-  check enqueueNDRangeKernel(queue, kernel, 1, nil,  cast[ptr int](addr globalWorkSize), cast[ptr int](addr localWorkSize), 0, nil, nil)
+  check enqueueNDRangeKernel(queue, kernel, 3, nil,  cast[ptr int](addr globalWorkSize), cast[ptr int](addr localWorkSize), 0, nil, nil)
 
 proc write*(queue: PCommandQueue, src: pointer, dest: PMem, size: int) =
   check enqueueWriteBuffer(queue, dest, CL_FALSE, 0, size, src, 0, nil, nil)
